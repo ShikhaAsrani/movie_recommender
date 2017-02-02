@@ -3,32 +3,32 @@ clear all
 close all
 
 accuracy=0;
-data = load('u3.txt');
-tdata=load('u3t.txt');
-udata=load('datauser.txt');
-mdata=load('datamov.txt');
+data = load('3_train.txt');
+tdata=load('3_test.txt');
+udata=load('user.txt');
+mdata=load('movie.txt');
 %%training data
 d=data(:,1:3);
 %%testing data
 td=tdata(:,1:2);
 %%answers
 answer=tdata(:,3);
+% 
+% addusertdata=udata(td(1,1),:);
+% addmovietdata=mdata(td(1,2),:);
+% 
+% for i=2:size(td,1)
+%     addusertdata=[addusertdata;udata(d(i,1),:)];
+%     addmovietdata=[addmovietdata;mdata(d(i,2),:)];
+% end
 
-addusertdata=udata(td(1,1),:);
-addmovietdata=mdata(td(1,2),:);
 
-for i=2:size(td,1)
-    addusertdata=[addusertdata;udata(d(i,1),:)];
-    addmovietdata=[addmovietdata;mdata(d(i,2),:)];
-end
-
-
-adduserdata=load('data3user.txt');
-addmoviedata=load('data3mov.txt');
+addUserData=load('user_3.txt');
+addmoviedata=load('mov_3.txt');
 d=[d(:,1:2) adduserdata addmoviedata d(:,3)];
 
-addusertdata=load('data3tuser.txt');
-addmovietdata=load('data3tmov.txt');
+addusertdata=load('user_3_test.txt');
+addmovietdata=load('mov_3_test.txt');
 td=[td addusertdata addmovietdata];
 
 dproxy=d;
