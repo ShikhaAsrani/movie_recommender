@@ -61,3 +61,4 @@ for i=1:943
         end
     end
 end
+errorsum/20000
