@@ -19,6 +19,7 @@ PerMovieSum=sum(user_movie_mx,1);
 for i=1:1682
     countuser=find(user_movie_mx(:,i));
     PerMovieSum(i)=PerMovieSum(i)/size(countuser,1);
+    
     for j=1:943
         if user_movie_mx(j,i)==0
             user_movie_mx(j,i)=PerMovieSum(i);

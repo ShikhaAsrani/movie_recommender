@@ -10,63 +10,28 @@ for i=1:size(training_data,1)
     user_movie_mx(training_data(i,1),training_data(i,2))=training_data(i,25);
 end
 
-% for i=1:1682
-%     AverageRating=0;
-%     count=0;
-%     for j=1:943
-%         AverageRating=user_movie_mx(j,i)+AverageRating;
-%         count=count+1;
-%     end
-%     AverageRatings(i)=AverageRating/count;
-%     for j=1:943
-%         if user_movie_mx(j,i)~=0
-%         user_movie_mx(j,i)=user_movie_mx(j,i)-AverageRatings(i);
-%         end
-%     end
-% end
 data_for_training=load('movie.txt');
-[idx,C]=kmeans(data_for_training,64);
-
-%
-% for i=1:1682
-%     AverageRating=0;
-%     count=0;
-%     for j=1:943
-%         AverageRating=user_movie_mx(j,i)+AverageRating;
-%         count=count+1;
-%     end
-%     AverageRatings(i)=AverageRating/count;
-%     for j=1:943
-%         if user_movie_mx(j,i)~=0
-%         user_movie_mx(j,i)=user_movie_mx(j,i)-AverageRatings(i);
-%         end
-%     end
-% end
+[centers,U] = fcm(data_for_training,64);
 
 
 errorsum=0;
-sizev=zeros(943,64);
+
 %%UserRatingToEachCluster=zeros(943,64);
 for i=1:64
-    MembersOfCluster=idx(idx(:,1)==i);
+    MembersOfCluster=U(i,:);
     for k=1:943
+        fractionintoratingforclusteri=user_movie_mx(k,:).*MembersOfCluster;
+        UserTotalToEachCluster(k,i)=sum(fractionintoratingforclusteri);
+        TotalOfRatios=sum(MembersOfCluster);
         
-        UserTotalToEachCluster(k,i)=0;
-        for j=1:size(MembersOfCluster,1)
-            if user_movie_mx(k,MembersOfCluster(j))~=0
-                UserTotalToEachCluster(k,i)=UserTotalToEachCluster(k,i)+user_movie_mx(k,MembersOfCluster(j));
-                sizev(k,i)=sizev(k,i)+1;
-            end
-        end
-        if sizev(k,i)~=0
-            UserRatingToEachCluster(k,i)=double(UserTotalToEachCluster(k,i))/double(sizev(k,i));
+        if TotalOfRatios~=0
+            UserRatingToEachCluster(k,i)=double(UserTotalToEachCluster(k,i))/double(TotalOfRatios);
         else
             UserRatingToEachCluster(k,i)=0;
         end
     end
 end
 
-%%calculating pcr between two users.
 UserTotalRating=zeros(943);
 for i=1:943
     count=0;
@@ -83,7 +48,6 @@ for i=1:943
     end
     
 end;
-
 
 for i=1:943
     StdDevForEachUser(i)=0.0;
@@ -134,7 +98,6 @@ for i=1:20000
     else
         GuessRating=UserAverageRating(user);
     end
-%     GuessRating=GuessRating+AverageRatings(movie);
     ActualRating=testing_data(i,25);
     error=abs(GuessRating-ActualRating);
     error=error*error;

@@ -56,7 +56,7 @@ for i=1:943
             if sizev~=0
                 average=sum/sizev;
                 error=abs(average-CompleteTestingData(i,j));
-                errorsum=errorsum+error;
+                errorsum=errorsum+(error*error);
             end
         end
     end

@@ -31,8 +31,8 @@ errorsum=0;
 
 UserRatingToEachCluster=zeros(943,64);
 for i=1:64 
-  MembersOfCluster=idx(:,1)==i
-  MembersOfCluster=find(MembersOfCluster)
+  MembersOfCluster=idx(:,1)==i;
+  MembersOfCluster=find(MembersOfCluster);
   for k=1:943
       sizev=0;
   for j=1:size(MembersOfCluster,1)

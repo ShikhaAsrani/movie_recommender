@@ -25,7 +25,7 @@ end
 %     end
 % end
 data_for_training=load('movie.txt');
-[idx,C]=kmeans(data_for_training,64);
+[idx,C]=NDistanceGenFunc(data_for_training,64);
 
 %
 % for i=1:1682
@@ -50,7 +50,6 @@ sizev=zeros(943,64);
 for i=1:64
     MembersOfCluster=idx(idx(:,1)==i);
     for k=1:943
-        
         UserTotalToEachCluster(k,i)=0;
         for j=1:size(MembersOfCluster,1)
             if user_movie_mx(k,MembersOfCluster(j))~=0
@@ -134,7 +133,7 @@ for i=1:20000
     else
         GuessRating=UserAverageRating(user);
     end
-%     GuessRating=GuessRating+AverageRatings(movie);
+%   GuessRating=GuessRating+AverageRatings(movie);
     ActualRating=testing_data(i,25);
     error=abs(GuessRating-ActualRating);
     error=error*error;
@@ -142,3 +141,4 @@ for i=1:20000
 end
 
 errorsum/20000
+sqrt(errrorsum)

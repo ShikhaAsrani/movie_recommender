@@ -73,12 +73,13 @@ errorsum=0;
 UserRatingToEachCluster=zeros(943,64);
 for i=1:64
     
-  MembersOfCluster=idx(idx(:,1)==i);
+ MembersOfCluster=idx(:,1)==i;
+  MembersOfCluster=find(MembersOfCluster);
   for k=1:943
       sizev=0;
   for j=1:size(MembersOfCluster,1)
-      if user_movie_mx(k,j)~=0
-      UserRatingToEachCluster(k,i)=UserRatingToEachCluster(k,i)+user_movie_mx(k,j);
+      if user_movie_mx(k,MembersOfCluster(j))~=0
+      UserRatingToEachCluster(k,i)=UserRatingToEachCluster(k,i)+user_movie_mx(k,MembersOfCluster(j));
       sizev=sizev+1;
       end
   end 
@@ -111,6 +112,9 @@ for i=1:20000
     if sizev~=0
     average=sum/sizev;
     error=abs(average-testing_data(i,25));
+    error=error*error;
     errorsum=errorsum+error;
     end
- end
+end
+ 
+errorsum/20000
