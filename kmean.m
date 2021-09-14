@@ -12,10 +12,9 @@ data_for_testing=testing_data(:,3:(end-1));
 
 mae=zeros(20000,1);
 %% Cluster Numbers
+%% Adding this comment on 09/14/2021 for ASE Fall 21 Course
 
-
-
-for K=70:170                                                         %%to store distance of training data from centres
+for K=70:170  %%to store distance of training data from centres
     
     [idx,C]=kmeans(data_for_training,K);
     
